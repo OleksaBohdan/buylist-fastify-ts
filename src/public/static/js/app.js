@@ -1,9 +1,21 @@
 const App = {
   data() {
     return {
-      counter: 0,
-      appTitle: 'Counter',
+      appTitle: 'Menulist:',
+      placeholderProduct: 'Product name',
+      placeholderProductCount: 'Count',
+      productValue: '',
+      productCountValue: '',
+      products: [{ productName: 'Banana', productCount: 3 }],
     };
+  },
+  methods: {
+    productChangeHadler(e) {
+      this.productValue = e.target.value;
+    },
+    productCountHandler(e) {
+      this.productCountValue = e.target.value;
+    },
   },
 };
 
