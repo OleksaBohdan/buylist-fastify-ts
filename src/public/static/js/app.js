@@ -26,6 +26,7 @@ const App = {
       this.productValue = '';
       this.productCountValue = '';
     },
+    doneProduct(e) {},
     deleteProducts(e) {
       this.products = [];
     },

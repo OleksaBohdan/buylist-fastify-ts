@@ -70,7 +70,11 @@
         <br />
         <br />
         <ul class="list-group">
-          <li class="list-group-item d-flex justify-content-between align-items-center" v-for="product in products">
+          <li
+            class="list-group-item d-flex justify-content-between align-items-center"
+            v-for="product in products"
+            v-on:click="doneProduct(idx)"
+          >
             <span
               ><i class="bi bi-bag-fill m-3" :class="{ 'bi-bag':product.isNotDone,  }"></i>{{ product.productName
               }}</span
