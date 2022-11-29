@@ -1,3 +1,21 @@
 body {
   font-family: 'Open Sans', sans-serif;
 }
+
+.bi {
+  color: #0d6efd;
+}
+
+.list-group-item {
+  cursor: pointer;
+}
+
+.btn-add {
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+.btn-clear {
+  display: block;
+  margin: 0 auto;
+}
