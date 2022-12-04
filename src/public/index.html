@@ -21,7 +21,7 @@
     <meta name="msapplication-TileColor" content="#ffffff" />
     <meta name="msapplication-TileImage" content="/ms-icon-144x144.png" />
     <meta name="theme-color" content="#ffffff" />
-    <title></title>
+    <title>😺 Buylist – Hommy</title>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -42,49 +42,47 @@
       </div>
       <div class="container">
         <br />
-        <div class="alert alert-light" role="alert"></div>
         <div class="input-group-lg mb-3">
           <input
             type="text"
             class="form-control"
-            v-bind:placeholder="placeholderProduct"
             aria-label="Product name"
             aria-describedby="button-addon2"
-            v-bind:value="productValue"
-            v-on:input="productChangeHadler"
-            v-on:keypress.enter="addProduct"
+            :placeholder="placeholderProduct"
+            v-model="productValue"
+            @keypress.enter="addProduct"
           />
         </div>
         <div class="input-group-lg mb-3">
           <input
             type="number"
             class="form-control"
-            v-bind:placeholder="placeholderProductCount"
             aria-label="Count"
             aria-describedby="button-addon2"
-            v-bind:value="productCountValue"
-            v-on:input="productCountHandler"
+            :placeholder="placeholderProductCount"
+            v-model="productCountValue"
           />
         </div>
-        <button type="button" class="btn btn-primary btn-add" v-on:click="addProduct">Add</button>
+        <button type="button" class="btn btn-primary btn-add" @click="addProduct">Add</button>
         <br />
         <br />
-        <ul class="list-group">
+        <ul class="list-group" v-if="products.length !== 0">
           <li
             class="list-group-item d-flex justify-content-between align-items-center"
-            v-for="product in products"
-            v-on:click="doneProduct(idx)"
+            v-for="(product, idx) in products"
+            @click="doneProduct(idx)"
           >
             <span
-              ><i class="bi bi-bag-fill m-3" :class="{ 'bi-bag':product.isNotDone,  }"></i>{{ product.productName
-              }}</span
+              ><i class="bi bi-bag-fill m-3" :class="{ 'bi-bag':product.isNotDone,  }"></i>{{
+              toUpperCase(product.productName) }}</span
             >
             <span class="badge bg-primary rounded-pill">{{ product.productCount }}</span>
           </li>
         </ul>
+        <div class="alert alert-warning" role="alert" v-else>Buylist is empty. Add a newone 😽</div>
         <br />
         <br />
-        <button type="button" class="btn btn-secondary btn-clear" v-on:click="deleteProducts">Clear</button>
+        <button type="button" class="btn btn-secondary btn-clear" @click="deleteProducts">Clear</button>
       </div>
     </div>
 
@@ -99,3 +97,8 @@
     <script src="./static/js/app.js"></script>
   </body>
 </html>
+
+<!-- 
+  v-bind == :
+  v-on == @
+ -->
