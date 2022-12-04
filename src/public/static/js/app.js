@@ -14,12 +14,6 @@ const App = {
     };
   },
   methods: {
-    // productChangeHadler(e) {
-    //   this.productValue = e.target.value;
-    // },
-    productCountHandler(e) {
-      this.productCountValue = e.target.value;
-    },
     addProduct(e) {
       if (this.productValue !== '') {
         const productName = this.productValue;
