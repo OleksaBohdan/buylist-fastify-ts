@@ -8,7 +8,7 @@ interface IProduct {
 
 const productSchema = new Schema<IProduct>(
   {
-    productName: { type: String, required: true },
+    productName: { type: String, required: true, unique: true },
     productCount: { type: String },
     isNotDone: { type: Boolean, default: false },
   },

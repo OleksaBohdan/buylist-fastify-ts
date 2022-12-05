@@ -8,6 +8,7 @@ const App = {
       productValue: '',
       productCountValue: '',
       products: [],
+      isAuthorized: false,
     };
   },
   methods: {
@@ -60,7 +61,6 @@ const App = {
         }
       });
     },
-
     deleteProduct(idx) {
       const socket = io();
       socket.emit('delete_product', { productName: this.products[idx].productName });
