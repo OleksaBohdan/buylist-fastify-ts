@@ -39,7 +39,22 @@
       <div class="p-3 mb-2 bg-primary text-white">
         <div class="container fs-3 text">{{appTitle}}</div>
       </div>
-      <div class="container">
+      <div class="container login" v-if="isAuthorized === false">
+        <h1 class="text-center fs-1 fw-light">Login</h1>
+        <br />
+        <div class="form-floating mb-3">
+          <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" />
+          <label for="floatingInput">Email address</label>
+        </div>
+        <div class="form-floating">
+          <input type="password" class="form-control" id="floatingPassword" placeholder="Password" />
+          <label for="floatingPassword">Password</label>
+        </div>
+        <br />
+        <button type="button" class="btn btn-primary center">Login</button>
+      </div>
+
+      <div class="container products" v-else>
         <br />
         <div v-html="infoHtml"></div>
         <div class="input-group-lg mb-3">
