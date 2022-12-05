@@ -1,6 +1,7 @@
 const App = {
   data() {
     return {
+      infoHtml: '',
       appTitle: 'Buylist:',
       placeholderProduct: 'Product name',
       placeholderProductCount: 'Count',
@@ -14,13 +15,22 @@ const App = {
     };
   },
   methods: {
-    addProduct(e) {
+    addProduct() {
       if (this.productValue !== '') {
-        const productName = this.productValue;
-        const productCount = this.productCountValue;
-        this.products.push({ productName: productName, productCount: productCount, isNotDone: true });
-        this.productValue = '';
-        this.productCountValue = '';
+        const socket = io();
+        socket.emit('add_product', 'lala');
+        socket.on('add_product', (data) => {
+          console.log(data);
+          if (data === 'ok') {
+            const productName = this.productValue;
+            const productCount = this.productCountValue;
+            this.products.push({ productName: productName, productCount: productCount, isNotDone: true });
+            this.productValue = '';
+            this.productCountValue = '';
+          } else {
+            this.infoHtml = `<div class="alert alert-danger" role="alert">${data}</div>`;
+          }
+        });
       }
     },
     doneProduct(idx) {
@@ -33,16 +43,17 @@ const App = {
     deleteProducts(e) {
       this.products = [];
     },
+    deleteProduct(idx) {
+      console.log('deleted', idx);
+      this.products[idx].splice(0, 1);
+      console.log(this.products[idx]);
+    },
     toUpperCase(item) {
       return item.toUpperCase();
     },
   },
   computed: {},
-  watch: {
-    productValue(value) {
-      console.log(value);
-    },
-  },
+  watch: {},
 };
 
 const app = Vue.createApp(App);

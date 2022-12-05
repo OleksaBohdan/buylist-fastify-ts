@@ -21,7 +21,7 @@
     <meta name="msapplication-TileColor" content="#ffffff" />
     <meta name="msapplication-TileImage" content="/ms-icon-144x144.png" />
     <meta name="theme-color" content="#ffffff" />
-    <title>😺 Buylist – Hommy</title>
+    <title>Buylist | Hommy</title>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -32,7 +32,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;500;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css" />
-
     <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
@@ -42,12 +41,14 @@
       </div>
       <div class="container">
         <br />
+        <div v-html="infoHtml"></div>
         <div class="input-group-lg mb-3">
           <input
             type="text"
             class="form-control"
             aria-label="Product name"
             aria-describedby="button-addon2"
+            maxlength="13"
             :placeholder="placeholderProduct"
             v-model="productValue"
             @keypress.enter="addProduct"
@@ -55,10 +56,11 @@
         </div>
         <div class="input-group-lg mb-3">
           <input
-            type="number"
+            type="text"
             class="form-control"
             aria-label="Count"
             aria-describedby="button-addon2"
+            maxlength="3"
             :placeholder="placeholderProductCount"
             v-model="productCountValue"
           />
@@ -76,24 +78,31 @@
               ><i class="bi bi-bag-fill m-3" :class="{ 'bi-bag':product.isNotDone,  }"></i>{{
               toUpperCase(product.productName) }}</span
             >
+
             <span class="badge bg-primary rounded-pill">{{ product.productCount }}</span>
+            <button
+              type="button"
+              class="btn-close"
+              aria-label="Close"
+              @click.stop
+              @click="products.splice(idx, 1)"
+            ></button>
           </li>
         </ul>
-        <div class="alert alert-warning" role="alert" v-else>Buylist is empty. Add a newone 😽</div>
+        <div class="alert alert-light" role="alert" v-else>Buylist is empty. Add a newone 😽</div>
         <br />
         <br />
         <button type="button" class="btn btn-secondary btn-clear" @click="deleteProducts">Clear</button>
       </div>
     </div>
 
+    <script src="/socket.io/socket.io.js"></script>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
       crossorigin="anonymous"
     ></script>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-    <script src="./static/js/login.js"></script>
-    <script src="./static/js/addItems.js"></script>
     <script src="./static/js/app.js"></script>
   </body>
 </html>
