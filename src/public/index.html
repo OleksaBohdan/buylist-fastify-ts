@@ -76,17 +76,10 @@
           >
             <span
               ><i class="bi bi-bag-fill m-3" :class="{ 'bi-bag':product.isNotDone,  }"></i>{{
-              toUpperCase(product.productName) }}</span
+              toUpperCase(product.productName) }}
+              <span class="badge bg-primary ms-1">{{ product.productCount }}</span></span
             >
-
-            <span class="badge bg-primary rounded-pill">{{ product.productCount }}</span>
-            <button
-              type="button"
-              class="btn-close"
-              aria-label="Close"
-              @click.stop
-              @click="products.splice(idx, 1)"
-            ></button>
+            <button type="button" class="btn-close" aria-label="Close" @click.stop @click="deleteProduct(idx)"></button>
           </li>
         </ul>
         <div class="alert alert-light" role="alert" v-else>Buylist is empty. Add a newone 😽</div>

@@ -7,20 +7,19 @@ const App = {
       placeholderProductCount: 'Count',
       productValue: '',
       productCountValue: '',
-      products: [
-        { productName: 'Banana', productCount: '3', isNotDone: true },
-        { productName: 'Tomato', productCount: '1', isNotDone: true },
-        { productName: 'Orange', isNotDone: true },
-      ],
+      products: [],
     };
   },
   methods: {
     addProduct() {
       if (this.productValue !== '') {
         const socket = io();
-        socket.emit('add_product', 'lala');
+        socket.emit('add_product', {
+          productName: this.productValue,
+          productCount: this.productCountValue,
+          isNotDone: true,
+        });
         socket.on('add_product', (data) => {
-          console.log(data);
           if (data === 'ok') {
             const productName = this.productValue;
             const productCount = this.productCountValue;
@@ -34,19 +33,44 @@ const App = {
       }
     },
     doneProduct(idx) {
+      const socket = io();
       if (this.products[idx].isNotDone == true) {
-        this.products[idx].isNotDone = false;
+        socket.emit('done_products', { productName: this.products[idx].productName, isNotDone: false });
       } else {
-        this.products[idx].isNotDone = true;
+        socket.emit('done_products', { productName: this.products[idx].productName, isNotDone: true });
       }
+
+      socket.on('done_products', (data) => {
+        if (data != true && data != false) {
+          this.infoHtml = `<div class="alert alert-danger" role="alert">${data}</div>`;
+        } else {
+          this.products[idx].isNotDone = data;
+        }
+      });
     },
     deleteProducts(e) {
-      this.products = [];
+      const socket = io();
+      socket.emit('delete_products', 'deleteAll');
+
+      socket.on('delete_products', (data) => {
+        if (data == 'ok') {
+          this.products = [];
+        } else {
+          this.infoHtml = `<div class="alert alert-danger" role="alert">${data}</div>`;
+        }
+      });
     },
+
     deleteProduct(idx) {
-      console.log('deleted', idx);
-      this.products[idx].splice(0, 1);
-      console.log(this.products[idx]);
+      const socket = io();
+      socket.emit('delete_product', { productName: this.products[idx].productName });
+      socket.on('delete_product', (data) => {
+        if (data == 'ok') {
+          this.products.splice(idx, 1);
+        } else {
+          this.infoHtml = `<div class="alert alert-danger" role="alert">${data}</div>`;
+        }
+      });
     },
     toUpperCase(item) {
       return item.toUpperCase();
@@ -54,6 +78,15 @@ const App = {
   },
   computed: {},
   watch: {},
+  beforeMount: function () {
+    const socket = io();
+    socket.emit('update_products', 'update');
+    socket.on('update_products', (data) => {
+      data.forEach((product) => {
+        this.products.push(product);
+      });
+    });
+  },
 };
 
 const app = Vue.createApp(App);
