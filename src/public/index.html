@@ -37,21 +37,53 @@
   <body>
     <div id="app" v-cloak>
       <div class="p-3 mb-2 bg-primary text-white">
-        <div class="container fs-3 text">{{appTitle}}</div>
+        <div class="container fs-3 text logo"><a href="/" class="text logo">{{appTitle}}</a></div>
       </div>
-      <div class="container login" v-if="isAuthorized === false">
-        <h1 class="text-center fs-1 fw-light">Login</h1>
-        <br />
-        <div class="form-floating mb-3">
-          <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" />
-          <label for="floatingInput">Email address</label>
+
+      <div class="container" v-if="isAuthorized === false">
+        <div class="hidden login" :class="{ active: isActiveLogin }">
+          <h1 class="text-center fs-1 fw-light">Welcome 😺</h1>
+          <br />
+          <div v-html="infoHtml"></div>
+          <div class="form-floating mb-3">
+            <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" />
+            <label for="floatingInput">Home name</label>
+          </div>
+          <div class="form-floating">
+            <input type="password" class="form-control" id="floatingPassword" placeholder="Password" />
+            <label for="floatingPassword">Password</label>
+          </div>
+          <br />
+          <button type="button" class="btn btn-primary center px-5 login__btn">Login</button>
+          <br />
+          <br />
+          <br />
+          <button type="button" class="btn btn-outline-primary create-account__btn" @click="showRegistration">
+            Create account
+          </button>
         </div>
-        <div class="form-floating">
-          <input type="password" class="form-control" id="floatingPassword" placeholder="Password" />
-          <label for="floatingPassword">Password</label>
+
+        <div class="container registration hidden" :class="{ active: isActiveRegistration }">
+          <h1 class="text-center fs-1 fw-light">Registration 😻</h1>
+          <br />
+          <div v-html="infoHtml"></div>
+          <div class="form-floating mb-3">
+            <input type="email" class="form-control" v-model="homeNameValue" />
+            <label for="floatingInput">Home name: 3+ symbols</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input type="email" class="form-control" v-model="emailValue" />
+            <label for="floatingInput">Email address</label>
+          </div>
+          <div class="form-floating">
+            <input type="password" class="form-control" v-model="passwordValue" />
+            <label for="floatingPassword">Password: 4+ symbols</label>
+          </div>
+          <br />
+          <button type="button" class="btn btn-primary center px-5 register__btn" @click="createAccount">
+            Create account
+          </button>
         </div>
-        <br />
-        <button type="button" class="btn btn-primary center">Login</button>
       </div>
 
       <div class="container products" v-else>
@@ -114,8 +146,3 @@
     <script src="./static/js/app.js"></script>
   </body>
 </html>
-
-<!-- 
-  v-bind == :
-  v-on == @
- -->

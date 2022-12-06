@@ -2,13 +2,19 @@ const App = {
   data() {
     return {
       infoHtml: '',
-      appTitle: 'Buylist:',
+      createAccountHtml: '',
+      appTitle: 'Hommy!',
       placeholderProduct: 'Product name',
       placeholderProductCount: 'Count',
       productValue: '',
       productCountValue: '',
+      homeNameValue: '',
+      emailValue: '',
+      passwordValue: '',
       products: [],
       isAuthorized: false,
+      isActiveLogin: true,
+      isActiveRegistration: false,
     };
   },
   methods: {
@@ -74,6 +80,43 @@ const App = {
     },
     toUpperCase(item) {
       return item.toUpperCase();
+    },
+    showRegistration() {
+      this.isActiveLogin = false;
+      this.isActiveRegistration = true;
+    },
+    async createAccount() {
+      const EMAIL_REGEXP =
+        /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/iu;
+      console.log('Create account');
+      this.infoHtml = '';
+      const homeName = this.homeNameValue;
+      const email = this.emailValue;
+      const password = this.passwordValue;
+      console.log(`homeName: ${homeName} email: ${email}: password: ${password}`);
+
+      if (homeName.length < 3) {
+        console.log('Home name < 3');
+        this.infoHtml = `<div class="alert alert-warning" role="alert">Home name should have 3 or more symbols</div>`;
+        return;
+      }
+
+      if (!EMAIL_REGEXP.test(email)) {
+        console.log('Home name < 3');
+        this.infoHtml = `<div class="alert alert-warning" role="alert">Invalid email</div>`;
+        return;
+      }
+
+      if (password.length < 4) {
+        console.log('Home name < 3');
+        this.infoHtml = `<div class="alert alert-warning" role="alert">Password should have 4 or more symbols</div>`;
+        return;
+      }
+
+      await fetch('/api/register', {
+        method: 'post',
+        body: JSON.stringify({ homeName: homeName, email: email, password: password }),
+      });
     },
   },
   computed: {},
