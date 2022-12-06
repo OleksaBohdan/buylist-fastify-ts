@@ -15,6 +15,7 @@
     "@fastify/static": "^6.5.1",
     "fastify": "^4.10.2",
     "fastify-socket.io": "^4.0.0",
+    "fluent-json-schema": "^4.0.0",
     "mongoose": "^6.7.3",
     "pino-pretty": "^9.1.1"
   },
