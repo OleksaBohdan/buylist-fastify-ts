@@ -12,7 +12,7 @@ import S from 'fluent-json-schema';
 interface IRegisterCredentials {
   homeName: string;
   email: string;
-  password: boolean;
+  password: string;
 }
 
 export async function register() {
@@ -20,6 +20,25 @@ export async function register() {
     console.log('Register');
     const credentials: IRegisterCredentials = request.body as IRegisterCredentials;
 
-    reply.status(200);
+    const userID = (await User.count()) + 1;
+
+    const user = new User({
+      homeName: credentials.homeName,
+      email: credentials.email,
+      profileId: userID,
+    });
+
+    try {
+      user.setPassword(credentials.password);
+      await user.save();
+      reply.status(201);
+      return;
+    } catch (e) {
+      if (e instanceof Error) {
+        reply.status(200);
+        reply.send({ body: e.message });
+        return;
+      }
+    }
   });
 }

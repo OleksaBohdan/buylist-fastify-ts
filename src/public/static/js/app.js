@@ -82,6 +82,7 @@ const App = {
       return item.toUpperCase();
     },
     showRegistration() {
+      this.infoHtml = '';
       this.isActiveLogin = false;
       this.isActiveRegistration = true;
     },
@@ -119,7 +120,23 @@ const App = {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ homeName: homeName, email: email, password: password }),
-      });
+      })
+        .then((response) => {
+          console.log(response);
+          console.log('response.status', response.status);
+
+          if ((response.status = 201)) {
+            this.isActiveLogin = true;
+            this.isActiveRegistration = false;
+            this.infoHtml = `<div class="alert alert-success" role="alert">You have successfully registered!</div>`;
+            return;
+          } else {
+            return response.json();
+          }
+        })
+        .then((response) => {
+          this.infoHtml = `<div class="alert alert-light" role="alert">${response.body}</div>`;
+        });
     },
   },
   computed: {},
