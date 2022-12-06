@@ -46,11 +46,11 @@
           <br />
           <div v-html="infoHtml"></div>
           <div class="form-floating mb-3">
-            <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" />
+            <input type="email" class="form-control" id="floatingInput" maxlength="30" placeholder="name@example.com" />
             <label for="floatingInput">Home name</label>
           </div>
           <div class="form-floating">
-            <input type="password" class="form-control" id="floatingPassword" placeholder="Password" />
+            <input type="password" class="form-control" id="floatingPassword" maxlength="30" placeholder="Password" />
             <label for="floatingPassword">Password</label>
           </div>
           <br />
@@ -68,15 +68,15 @@
           <br />
           <div v-html="infoHtml"></div>
           <div class="form-floating mb-3">
-            <input type="email" class="form-control" v-model="homeNameValue" />
+            <input type="email" class="form-control" maxlength="30" v-model="homeNameValue" />
             <label for="floatingInput">Home name: 3+ symbols</label>
           </div>
           <div class="form-floating mb-3">
-            <input type="email" class="form-control" v-model="emailValue" />
+            <input type="email" class="form-control" maxlength="30" v-model="emailValue" />
             <label for="floatingInput">Email address</label>
           </div>
           <div class="form-floating">
-            <input type="password" class="form-control" v-model="passwordValue" />
+            <input type="password" class="form-control" maxlength="30" v-model="passwordValue" />
             <label for="floatingPassword">Password: 4+ symbols</label>
           </div>
           <br />

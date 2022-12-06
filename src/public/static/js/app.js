@@ -122,20 +122,22 @@ const App = {
         body: JSON.stringify({ homeName: homeName, email: email, password: password }),
       })
         .then((response) => {
-          console.log(response);
-          console.log('response.status', response.status);
-
-          if ((response.status = 201)) {
+          if (response.status == 201) {
             this.isActiveLogin = true;
             this.isActiveRegistration = false;
             this.infoHtml = `<div class="alert alert-success" role="alert">You have successfully registered!</div>`;
+            this.homeNameValue = '';
+            this.emailValue = '';
+            this.passwordValue = '';
             return;
-          } else {
+          } else if (response.status == 200) {
             return response.json();
           }
         })
         .then((response) => {
-          this.infoHtml = `<div class="alert alert-light" role="alert">${response.body}</div>`;
+          if (response) {
+            this.infoHtml = `<div class="alert alert-warning" role="alert">${response.body}</div>`;
+          }
         });
     },
   },

@@ -32,6 +32,7 @@ export async function register() {
       user.setPassword(credentials.password);
       await user.save();
       reply.status(201);
+      reply.send({ body: 'ok' });
       return;
     } catch (e) {
       if (e instanceof Error) {
