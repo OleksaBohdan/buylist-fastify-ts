@@ -18,6 +18,15 @@ body {
   color: #0d6efd;
 }
 
+.bi-box-arrow-right {
+  cursor: pointer;
+  color: #1d1d1f;
+  opacity: 0.9;
+}
+.bi-box-arrow-right:hover {
+  opacity: 1;
+}
+
 .list-group-item {
   cursor: pointer;
 }
@@ -38,7 +47,9 @@ body {
 
 .login__btn,
 .register__btn,
-.create-account__btn {
+.create-account__btn,
+.btn-add,
+.btn__hide-inputs {
   display: block;
   margin: 0 auto;
 }

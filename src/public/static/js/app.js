@@ -82,6 +82,9 @@ const App = {
       return item.toUpperCase();
     },
     showRegistration() {
+      this.homeNameValue = '';
+      this.emailValue = '';
+      this.passwordValue = '';
       this.infoHtml = '';
       this.isActiveLogin = false;
       this.isActiveRegistration = true;
@@ -176,9 +179,6 @@ const App = {
   },
   computed: {},
   watch: {},
-  async serverPrefetch() {
-    console.log('sss');
-  },
   beforeMount: async function () {
     const socket = io();
     socket.emit('update_products', 'update');
@@ -187,17 +187,18 @@ const App = {
         this.products.push(product);
       });
     });
-    console.log('token', window.localStorage.getItem('token'));
 
     const token = window.localStorage.getItem('token');
     await fetch('/api/auth', {
       method: 'get',
-      header: {
+      headers: {
         'Content-Type': 'application/json',
         token: token,
       },
     }).then((response) => {
-      console.log(response);
+      if (response.status == 200) {
+        this.isAuthorized = true;
+      }
     });
   },
 };

@@ -37,7 +37,10 @@
   <body>
     <div id="app" v-cloak>
       <div class="p-3 mb-2 bg-white text-white shadow-sm">
-        <div class="container fs-3 text logo"><a href="/" class="text logo">{{appTitle}}</a></div>
+        <div class="container fs-3 text logo d-flex justify-content-between">
+          <a href="/" class="text logo">{{appTitle}}</a>
+          <i class="bi bi-box-arrow-right"></i>
+        </div>
       </div>
 
       <div class="container" v-if="isAuthorized === false">
@@ -69,10 +72,10 @@
             <label for="floatingPassword">Password</label>
           </div>
           <br />
-          <button type="button" class="btn btn-primary center px-5 p-3 login__btn" @click="login">Login</button>
+          <button type="button" class="btn btn-primary center px-5 p-3 login__btn" @click="login">Log In</button>
           <br />
           <br />
-          <button type="button" class="btn btn-outline-primary create-account__btn" @click="showRegistration">
+          <button type="button" class="btn btn-outline-primary p-3 create-account__btn" @click="showRegistration">
             Create account
           </button>
         </div>
@@ -102,6 +105,11 @@
       </div>
 
       <div class="container products" v-else>
+        <br />
+        <div class="form-check form-switch">
+          <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" />
+          <label class="form-check-label" for="flexSwitchCheckDefault">Shopping mode</label>
+        </div>
         <br />
         <div v-html="infoHtml"></div>
         <div class="input-group-lg mb-3">
