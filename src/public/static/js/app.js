@@ -140,16 +140,64 @@ const App = {
           }
         });
     },
+    async login() {
+      const homeName = this.homeNameValue;
+      const password = this.passwordValue;
+
+      if (!homeName || !password) {
+        this.infoHtml = `<div class="alert alert-warning" role="alert">All fields should be filled</div>`;
+        return;
+      }
+      this.infoHtml = '';
+
+      await fetch('/api/login', {
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ homeName: homeName, password: password }),
+      }).then((response) => {
+        if (response.status == 404) {
+          this.infoHtml = `<div class="alert alert-warning" role="alert">User not found</div>`;
+        }
+        if (response.status == 401) {
+          this.infoHtml = `<div class="alert alert-warning" role="alert">Incorrect login or password</div>`;
+        }
+        if (response.status == 200) {
+          const token = response.headers.get('token');
+          if (!token) {
+            this.infoHtml = `<div class="alert alert-warning" role="alert">Server error... Try again</div>`;
+          }
+          window.localStorage.setItem('token', token);
+          this.isAuthorized = true;
+        }
+      });
+    },
   },
   computed: {},
   watch: {},
-  beforeMount: function () {
+  async serverPrefetch() {
+    console.log('sss');
+  },
+  beforeMount: async function () {
     const socket = io();
     socket.emit('update_products', 'update');
     socket.on('update_products', (data) => {
       data.forEach((product) => {
         this.products.push(product);
       });
+    });
+    console.log('token', window.localStorage.getItem('token'));
+
+    const token = window.localStorage.getItem('token');
+    await fetch('/api/auth', {
+      method: 'get',
+      header: {
+        'Content-Type': 'application/json',
+        token: token,
+      },
+    }).then((response) => {
+      console.log(response);
     });
   },
 };

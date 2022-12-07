@@ -47,15 +47,29 @@
           <br />
           <div v-html="infoHtml"></div>
           <div class="form-floating mb-3">
-            <input type="email" class="form-control" id="floatingInput" maxlength="30" placeholder="name@example.com" />
+            <input
+              type="email"
+              class="form-control"
+              id="floatingInput"
+              maxlength="30"
+              placeholder="name@example.com"
+              v-model="homeNameValue"
+            />
             <label for="floatingInput">Home name</label>
           </div>
           <div class="form-floating">
-            <input type="password" class="form-control" id="floatingPassword" maxlength="30" placeholder="Password" />
+            <input
+              type="password"
+              class="form-control"
+              id="floatingPassword"
+              maxlength="30"
+              placeholder="Password"
+              v-model="passwordValue"
+            />
             <label for="floatingPassword">Password</label>
           </div>
           <br />
-          <button type="button" class="btn btn-primary center px-5 login__btn">Login</button>
+          <button type="button" class="btn btn-primary center px-5 p-3 login__btn" @click="login">Login</button>
           <br />
           <br />
           <button type="button" class="btn btn-outline-primary create-account__btn" @click="showRegistration">

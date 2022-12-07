@@ -3,7 +3,8 @@ import FastifyStaticPlugin from '@fastify/static';
 import socket from 'fastify-socket.io';
 import { productsWebsocket } from './services/productsWebsocket';
 import { register } from './routes/register';
-// import { registerSchema } from './routes/register';
+import { login } from './routes/login';
+import { tokenAuth } from './routes/auth';
 import path from 'path';
 
 const envToLogger = {
@@ -26,7 +27,8 @@ server.register(FastifyStaticPlugin, { root: path.join(__dirname, 'public') });
 server.register(socket);
 server.register(productsWebsocket);
 server.register(register);
-// server.addSchema(registerSchema);
+server.register(login);
+server.register(tokenAuth);
 
 server.get('/', (req: FastifyRequest, reply: FastifyReply) => {
   return reply.sendFile('index.html');

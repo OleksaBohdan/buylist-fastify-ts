@@ -12,11 +12,19 @@
   "author": "Bohdan Oleksa",
   "license": "ISC",
   "dependencies": {
+    "@fastify/jwt": "^6.5.0",
+    "@fastify/session": "^10.1.0",
     "@fastify/static": "^6.5.1",
+    "@types/jsonwebtoken": "^8.5.9",
+    "@types/passport": "^1.0.11",
+    "@types/passport-local": "^1.0.34",
     "fastify": "^4.10.2",
     "fastify-socket.io": "^4.0.0",
     "fluent-json-schema": "^4.0.0",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.7.3",
+    "passport": "^0.6.0",
+    "passport-local": "^1.0.0",
     "pino-pretty": "^9.1.1"
   },
   "devDependencies": {
