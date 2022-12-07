@@ -3,11 +3,14 @@ body {
 }
 
 .logo {
-  color: #fff;
+  color: #1d1d1f;
+  opacity: 0.9;
   text-decoration: none;
+  font-weight: 600;
 }
 .logo:hover {
-  color: #fff;
+  color: #1d1d1f;
+  opacity: 1;
   text-decoration: none;
 }
 

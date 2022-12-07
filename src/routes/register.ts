@@ -28,8 +28,11 @@ export async function register() {
       profileId: userID,
     });
 
+    console.log('pass', credentials.password);
+
     try {
-      user.setPassword(credentials.password);
+      console.log(user.setPassword(credentials.password));
+      await user.setPassword(credentials.password);
       await user.save();
       reply.status(201);
       reply.send({ body: 'ok' });

@@ -21,7 +21,7 @@
     <meta name="msapplication-TileColor" content="#ffffff" />
     <meta name="msapplication-TileImage" content="/ms-icon-144x144.png" />
     <meta name="theme-color" content="#ffffff" />
-    <title>Buylist | Hommy</title>
+    <title>Hommy!</title>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -36,12 +36,13 @@
   </head>
   <body>
     <div id="app" v-cloak>
-      <div class="p-3 mb-2 bg-primary text-white">
+      <div class="p-3 mb-2 bg-white text-white shadow-sm">
         <div class="container fs-3 text logo"><a href="/" class="text logo">{{appTitle}}</a></div>
       </div>
 
       <div class="container" v-if="isAuthorized === false">
         <div class="hidden login" :class="{ active: isActiveLogin }">
+          <br />
           <h1 class="text-center fs-1 fw-light">Welcome 😺</h1>
           <br />
           <div v-html="infoHtml"></div>
@@ -57,13 +58,13 @@
           <button type="button" class="btn btn-primary center px-5 login__btn">Login</button>
           <br />
           <br />
-          <br />
           <button type="button" class="btn btn-outline-primary create-account__btn" @click="showRegistration">
             Create account
           </button>
         </div>
 
         <div class="container registration hidden" :class="{ active: isActiveRegistration }">
+          <br />
           <h1 class="text-center fs-1 fw-light">Registration 😻</h1>
           <br />
           <div v-html="infoHtml"></div>
