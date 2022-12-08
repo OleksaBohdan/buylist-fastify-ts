@@ -1,0 +1,63 @@
+body {
+  font-family: 'Open Sans', sans-serif;
+}
+
+.logo {
+  color: #1d1d1f;
+  opacity: 0.9;
+  text-decoration: none;
+  font-weight: 600;
+}
+.logo:hover {
+  color: #1d1d1f;
+  opacity: 1;
+  text-decoration: none;
+}
+
+.bi {
+  color: #0d6efd;
+}
+
+.bi-box-arrow-right {
+  cursor: pointer;
+  color: #1d1d1f;
+  opacity: 0.9;
+}
+.bi-box-arrow-right:hover {
+  opacity: 1;
+}
+
+.list-group-item {
+  cursor: pointer;
+}
+
+.btn-add {
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+.btn-clear {
+  display: block;
+  margin: 0 auto;
+}
+
+[v-cloak] {
+  display: none;
+}
+
+.login__btn,
+.register__btn,
+.create-account__btn,
+.btn-add,
+.btn__hide-inputs {
+  display: block;
+  margin: 0 auto;
+}
+
+.hidden {
+  display: none;
+}
+
+.active {
+  display: block;
+}
