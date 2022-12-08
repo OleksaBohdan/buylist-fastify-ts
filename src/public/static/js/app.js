@@ -1,6 +1,7 @@
 const App = {
   data() {
     return {
+      homeName: '',
       infoHtml: '',
       createAccountHtml: '',
       appTitle: 'Hommy!',
@@ -15,6 +16,7 @@ const App = {
       isAuthorized: false,
       isActiveLogin: true,
       isActiveRegistration: false,
+      showExit: false,
     };
   },
   methods: {
@@ -34,8 +36,15 @@ const App = {
             this.products.push({ productName: productName, productCount: productCount, isNotDone: true });
             this.productValue = '';
             this.productCountValue = '';
+            this.infoHtml = '';
+          } else if (data === 'Invalid token') {
+            this.isAuthorized = false;
+            this.isActiveLogin = true;
+            this.infoHtml = `<div class="alert alert-danger" role="alert">Invalid token. Please, log In again</div>`;
+          } else if (data.includes('E11000')) {
+            this.infoHtml = `<div class="alert alert-warning" role="alert">"${this.productValue}" already exist</div>`;
           } else {
-            this.infoHtml = `<div class="alert alert-danger" role="alert">${data}</div>`;
+            this.infoHtml = `<div class="alert alert-warning" role="alert">"${data}" already exist</div>`;
           }
         });
       }
@@ -59,6 +68,10 @@ const App = {
       socket.on('done_products', (data) => {
         if (data != true && data != false) {
           this.infoHtml = `<div class="alert alert-danger" role="alert">${data}</div>`;
+        } else if (data === 'Invalid token') {
+          this.isAuthorized = false;
+          this.isActiveLogin = true;
+          this.infoHtml = `<div class="alert alert-danger" role="alert">Invalid token. Please, log In again</div>`;
         } else {
           this.products[idx].isNotDone = data;
         }
@@ -73,6 +86,10 @@ const App = {
       socket.on('delete_products', (data) => {
         if (data == 'ok') {
           this.products = [];
+        } else if (data === 'Invalid token') {
+          this.isAuthorized = false;
+          this.isActiveLogin = true;
+          this.infoHtml = `<div class="alert alert-danger" role="alert">Invalid token. Please, log In again</div>`;
         } else {
           this.infoHtml = `<div class="alert alert-danger" role="alert">${data}</div>`;
         }
@@ -87,6 +104,10 @@ const App = {
       socket.on('delete_product', (data) => {
         if (data == 'ok') {
           this.products.splice(idx, 1);
+        } else if (data === 'Invalid token') {
+          this.isAuthorized = false;
+          this.isActiveLogin = true;
+          this.infoHtml = `<div class="alert alert-danger" role="alert">Invalid token. Please, log In again</div>`;
         } else {
           this.infoHtml = `<div class="alert alert-danger" role="alert">${data}</div>`;
         }
@@ -153,7 +174,8 @@ const App = {
         })
         .then((response) => {
           if (response) {
-            this.infoHtml = `<div class="alert alert-warning" role="alert">${response.body}</div>`;
+            if (response.body.includes('E11000'))
+              this.infoHtml = `<div class="alert alert-warning" role="alert">This Home name or Email already exist</div>`;
           }
         });
     },
@@ -178,29 +200,38 @@ const App = {
           this.infoHtml = `<div class="alert alert-warning" role="alert">User not found</div>`;
         }
         if (response.status == 401) {
-          this.infoHtml = `<div class="alert alert-warning" role="alert">Incorrect login or password</div>`;
+          this.infoHtml = `<div class="alert alert-warning" role="alert">Incorrect password</div>`;
         }
         if (response.status == 200) {
           const token = response.headers.get('token');
+
           if (!token) {
             this.infoHtml = `<div class="alert alert-warning" role="alert">Server error... Try again</div>`;
           }
+
+          this.homeName = response.headers.get('homename');
           window.localStorage.setItem('token', token);
           this.isAuthorized = true;
+          this.isActiveLogin = false;
+          this.showExit = true;
         }
       });
+    },
+    async exit() {
+      window.localStorage.clear();
+      this.homeNameValue = '';
+      this.emailValue = '';
+      this.passwordValue = '';
+      this.infoHtml = '';
+      this.isAuthorized = false;
+      this.isActiveLogin = true;
+      this.showExit = false;
     },
   },
   computed: {},
   watch: {},
   beforeMount: async function () {
     const socket = io();
-    socket.emit('update_products', { token: window.localStorage.getItem('token') });
-    socket.on('update_products', (data) => {
-      data.forEach((product) => {
-        this.products.push(product);
-      });
-    });
 
     const token = window.localStorage.getItem('token');
     await fetch('/api/auth', {
@@ -210,7 +241,17 @@ const App = {
       },
     }).then((response) => {
       if (response.status == 200) {
+        socket.emit('update_products', { token: window.localStorage.getItem('token') });
+        socket.on('update_products', (data) => {
+          data.forEach((product) => {
+            this.products.push(product);
+          });
+        });
+        this.homeName = response.headers.get('homename');
+
         this.isAuthorized = true;
+        this.isActiveLogin = false;
+        this.showExit = true;
       }
     });
   },

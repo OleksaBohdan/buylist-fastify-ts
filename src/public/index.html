@@ -39,7 +39,7 @@
       <div class="p-3 mb-2 bg-white text-white sticky-top">
         <div class="container fs-3 text logo d-flex justify-content-between">
           <a href="/" class="text logo">{{appTitle}}</a>
-          <i class="bi bi-box-arrow-right"></i>
+          <i class="bi bi-box-arrow-right hidden" :class="{active:showExit}" @click="exit"></i>
         </div>
       </div>
 
@@ -156,6 +156,9 @@
         <br />
         <br />
         <button type="button" class="btn btn-secondary btn-clear" @click="deleteProducts">Clear</button>
+        <br />
+        <br />
+        <p class="fs-5 text-center">{{homeName}}</p>
       </div>
     </div>
 

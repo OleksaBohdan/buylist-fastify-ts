@@ -15,6 +15,7 @@ export async function tokenAuth() {
         reply.send('Invalid token');
       } else {
         console.log(`result ${result.data.profileId}`);
+        reply.headers({ homename: result.data.homeName });
         reply.status(200);
         reply.send('ok');
       }

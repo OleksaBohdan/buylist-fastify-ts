@@ -27,7 +27,7 @@ export async function login() {
       // console.log('Password correct... Logining');
       const token = await createSession(user);
       console.log(token);
-      reply.headers({ token: token });
+      reply.headers({ token: token, homename: credentials.homeName });
       return;
     } else {
       reply.status(401);

@@ -14,7 +14,7 @@ interface IUser {
 
 export async function createSession(user: IUser) {
   const token = jwt.sign({ data: { profileId: user.profileId, homeName: user.homeName } }, secretJwt, {
-    expiresIn: 3000000,
+    expiresIn: 300000000,
   });
 
   let session = await Session.findOne({ user: user });
