@@ -1,7 +1,7 @@
 import { Schema, model, connect } from 'mongoose';
 
 interface IProduct {
-  user: object;
+  profileId: string;
   productName: string;
   productCount: string;
   isNotDone: boolean;
@@ -9,11 +9,7 @@ interface IProduct {
 
 const productSchema = new Schema<IProduct>(
   {
-    user: {
-      type: Schema.Types.ObjectId,
-      required: false,
-      ref: 'User',
-    },
+    profileId: { type: String },
     productName: { type: String, required: true, unique: true },
     productCount: { type: String },
     isNotDone: { type: Boolean, default: false },

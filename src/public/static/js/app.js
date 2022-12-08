@@ -25,6 +25,7 @@ const App = {
           productName: this.productValue,
           productCount: this.productCountValue,
           isNotDone: true,
+          token: window.localStorage.getItem('token'),
         });
         socket.on('add_product', (data) => {
           if (data === 'ok') {
@@ -42,9 +43,17 @@ const App = {
     doneProduct(idx) {
       const socket = io();
       if (this.products[idx].isNotDone == true) {
-        socket.emit('done_products', { productName: this.products[idx].productName, isNotDone: false });
+        socket.emit('done_products', {
+          productName: this.products[idx].productName,
+          isNotDone: false,
+          token: window.localStorage.getItem('token'),
+        });
       } else {
-        socket.emit('done_products', { productName: this.products[idx].productName, isNotDone: true });
+        socket.emit('done_products', {
+          productName: this.products[idx].productName,
+          isNotDone: true,
+          token: window.localStorage.getItem('token'),
+        });
       }
 
       socket.on('done_products', (data) => {
@@ -56,8 +65,10 @@ const App = {
       });
     },
     deleteProducts(e) {
+      this.productValue = '';
+      this.productCountValue = '';
       const socket = io();
-      socket.emit('delete_products', 'deleteAll');
+      socket.emit('delete_products', { token: window.localStorage.getItem('token') });
 
       socket.on('delete_products', (data) => {
         if (data == 'ok') {
@@ -69,7 +80,10 @@ const App = {
     },
     deleteProduct(idx) {
       const socket = io();
-      socket.emit('delete_product', { productName: this.products[idx].productName });
+      socket.emit('delete_product', {
+        productName: this.products[idx].productName,
+        token: window.localStorage.getItem('token'),
+      });
       socket.on('delete_product', (data) => {
         if (data == 'ok') {
           this.products.splice(idx, 1);
@@ -181,7 +195,7 @@ const App = {
   watch: {},
   beforeMount: async function () {
     const socket = io();
-    socket.emit('update_products', 'update');
+    socket.emit('update_products', { token: window.localStorage.getItem('token') });
     socket.on('update_products', (data) => {
       data.forEach((product) => {
         this.products.push(product);
@@ -192,7 +206,6 @@ const App = {
     await fetch('/api/auth', {
       method: 'get',
       headers: {
-        'Content-Type': 'application/json',
         token: token,
       },
     }).then((response) => {
