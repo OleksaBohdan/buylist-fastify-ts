@@ -1,0 +1,4 @@
+runtime: nodejs16 # or another supported version
+
+env_variables:
+  DB: 'mongodb+srv://birthday-bot-reminder:ZFhuvS4lujcpr4dB@cluster0.k4tkhbl.mongodb.net/hommy'
