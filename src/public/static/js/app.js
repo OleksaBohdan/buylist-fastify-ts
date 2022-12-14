@@ -22,31 +22,48 @@ const App = {
   methods: {
     addProduct() {
       if (this.productValue !== '') {
-        const socket = io();
-        socket.emit('add_product', {
-          productName: this.productValue,
-          productCount: this.productCountValue,
-          isNotDone: true,
-          token: window.localStorage.getItem('token'),
-        });
-        socket.on('add_product', (data) => {
-          if (data === 'ok') {
-            const productName = this.productValue;
-            const productCount = this.productCountValue;
-            this.products.push({ productName: productName, productCount: productCount, isNotDone: true });
-            this.productValue = '';
-            this.productCountValue = '';
-            this.infoHtml = '';
-          } else if (data === 'Invalid token') {
-            this.isAuthorized = false;
-            this.isActiveLogin = true;
-            this.infoHtml = `<div class="alert alert-danger" role="alert">Invalid token. Please, log In again</div>`;
-          } else if (data.includes('E11000')) {
-            this.infoHtml = `<div class="alert alert-warning" role="alert">"${this.productValue}" already exist</div>`;
-          } else {
-            this.infoHtml = `<div class="alert alert-warning" role="alert">"${data}" already exist</div>`;
+        let isExist = false;
+        for (let i = 0; i < this.products.length; i++) {
+          console.log(this.products[i].productName);
+          if (this.products[i].productName === this.productValue) {
+            isExist = true;
           }
-        });
+        }
+
+        if (!isExist) {
+          const productName = this.productValue;
+          const productCount = this.productCountValue;
+          this.productValue = '';
+          this.productCountValue = '';
+          this.products.push({ productName: productName, productCount: productCount, isNotDone: true });
+          this.infoHtml = '';
+
+          const socket = io();
+          socket.emit('add_product', {
+            productName: productName,
+            productCount: productCount,
+            isNotDone: true,
+            token: window.localStorage.getItem('token'),
+          });
+          socket.on('add_product', (data) => {
+            if (data === 'ok') {
+              this.infoHtml = `<div class="alert alert-success" role="alert">${productName} added</div>`;
+            } else if (data === 'Invalid token') {
+              this.isAuthorized = false;
+              this.isActiveLogin = true;
+              this.infoHtml = `<div class="alert alert-danger" role="alert">Invalid token. Please, log In again</div>`;
+            } else if (data.includes('E11000')) {
+              this.infoHtml = `<div class="alert alert-warning" role="alert">"${this.productValue}" already exist</div>`;
+              this.productValue = '';
+            } else {
+              this.infoHtml = `<div class="alert alert-warning" role="alert">"${data}" already exist</div>`;
+              this.productValue = '';
+            }
+          });
+        } else {
+          this.infoHtml = `<div class="alert alert-warning" role="alert">"${this.productValue}" already exist</div>`;
+          this.productValue = '';
+        }
       }
     },
     doneProduct(idx) {
@@ -57,12 +74,14 @@ const App = {
           isNotDone: false,
           token: window.localStorage.getItem('token'),
         });
+        this.products[idx].isNotDone = false;
       } else {
         socket.emit('done_products', {
           productName: this.products[idx].productName,
           isNotDone: true,
           token: window.localStorage.getItem('token'),
         });
+        this.products[idx].isNotDone = true;
       }
 
       socket.on('done_products', (data) => {
@@ -73,7 +92,7 @@ const App = {
           this.isActiveLogin = true;
           this.infoHtml = `<div class="alert alert-danger" role="alert">Invalid token. Please, log In again</div>`;
         } else {
-          this.products[idx].isNotDone = data;
+          console.log(data);
         }
       });
     },
@@ -86,6 +105,7 @@ const App = {
       socket.on('delete_products', (data) => {
         if (data == 'ok') {
           this.products = [];
+          this.infoHtml = '';
         } else if (data === 'Invalid token') {
           this.isAuthorized = false;
           this.isActiveLogin = true;

@@ -10,7 +10,7 @@ interface IProduct {
 const productSchema = new Schema<IProduct>(
   {
     profileId: { type: String },
-    productName: { type: String, required: true, unique: true },
+    productName: { type: String, required: true, unique: false },
     productCount: { type: String },
     isNotDone: { type: Boolean, default: false },
   },
