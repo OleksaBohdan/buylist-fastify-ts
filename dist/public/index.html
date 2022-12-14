@@ -72,7 +72,14 @@
             <label for="floatingPassword">Password</label>
           </div>
           <br />
-          <button type="button" class="btn btn-primary center px-5 p-3 login__btn" @click="login">Log In</button>
+          <button
+            type="button"
+            class="btn btn-primary center px-5 p-3 login__btn"
+            @click="login"
+            @keypress.enter="login"
+          >
+            Log In
+          </button>
           <br />
           <br />
           <button type="button" class="btn btn-outline-primary p-3 create-account__btn" @click="showRegistration">
@@ -106,10 +113,6 @@
 
       <div class="container products" v-else>
         <br />
-        <!-- <div class="form-check form-switch">
-          <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" />
-          <label class="form-check-label" for="flexSwitchCheckDefault">Shopping mode</label>
-        </div> -->
         <br />
         <div v-html="infoHtml"></div>
         <div class="input-group-lg mb-3">
@@ -124,7 +127,7 @@
             @keypress.enter="addProduct"
           />
         </div>
-        <div class="input-group-lg mb-3">
+        <div class="input-group-lg mb-0">
           <input
             type="text"
             class="form-control"
@@ -133,19 +136,21 @@
             maxlength="3"
             :placeholder="placeholderProductCount"
             v-model="productCountValue"
+            @keypress.enter="addProduct"
           />
         </div>
-        <button type="button" class="btn btn-primary btn-add" @click="addProduct">Add</button>
         <br />
+        <button type="button" class="btn btn-primary px-5 p-3 btn-add" @click="addProduct">Add</button>
         <br />
         <ul class="list-group" v-if="products.length !== 0">
           <li
             class="list-group-item d-flex justify-content-between align-items-center"
             v-for="(product, idx) in products"
             @click="doneProduct(idx)"
+            v-bind:key="product"
           >
             <span
-              ><i class="bi bi-bag-fill m-3" :class="{ 'bi-bag':product.isNotDone,  }"></i>{{
+              ><i class="bi bi-bag-fill m-3 fs-5" :class="{ 'bi-bag':product.isNotDone,  }"></i>{{
               toUpperCase(product.productName) }}
               <span class="badge bg-primary ms-1">{{ product.productCount }}</span></span
             >

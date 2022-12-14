@@ -15,19 +15,28 @@ async function productsWebsocket() {
                     return;
                 }
                 else {
-                    const product = new Product_1.Product();
-                    product.productName = data.productName;
-                    product.productCount = data.productCount;
-                    product.isNotDone = data.isNotDone;
-                    product.profileId = result.data.profileId;
-                    try {
-                        await product.save();
-                        socket.emit('add_product', 'ok');
-                    }
-                    catch (e) {
-                        if (e instanceof Error) {
-                            socket.emit('add_product', e.message);
+                    const isProduct = await Product_1.Product.findOne({
+                        productName: data.productName,
+                        profileId: result.data.profileId,
+                    });
+                    if (!isProduct) {
+                        const product = new Product_1.Product();
+                        product.productName = data.productName;
+                        product.productCount = data.productCount;
+                        product.isNotDone = data.isNotDone;
+                        product.profileId = result.data.profileId;
+                        try {
+                            await product.save();
+                            socket.emit('add_product', 'ok');
                         }
+                        catch (e) {
+                            if (e instanceof Error) {
+                                socket.emit('add_product', e.message);
+                            }
+                        }
+                    }
+                    else {
+                        socket.emit('add_product', `${data.productName}`);
                     }
                 }
             });

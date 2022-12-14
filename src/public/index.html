@@ -127,7 +127,7 @@
             @keypress.enter="addProduct"
           />
         </div>
-        <div class="input-group-lg mb-3">
+        <div class="input-group-lg mb-0">
           <input
             type="text"
             class="form-control"
@@ -139,8 +139,8 @@
             @keypress.enter="addProduct"
           />
         </div>
-        <button type="button" class="btn btn-primary btn-add" @click="addProduct">Add</button>
         <br />
+        <button type="button" class="btn btn-primary px-5 p-3 btn-add" @click="addProduct">Add</button>
         <br />
         <ul class="list-group" v-if="products.length !== 0">
           <li
@@ -150,7 +150,7 @@
             v-bind:key="product"
           >
             <span
-              ><i class="bi bi-bag-fill m-3" :class="{ 'bi-bag':product.isNotDone,  }"></i>{{
+              ><i class="bi bi-bag-fill m-3 fs-5" :class="{ 'bi-bag':product.isNotDone,  }"></i>{{
               toUpperCase(product.productName) }}
               <span class="badge bg-primary ms-1">{{ product.productCount }}</span></span
             >

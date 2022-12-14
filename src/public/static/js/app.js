@@ -36,7 +36,7 @@ const App = {
           this.productValue = '';
           this.productCountValue = '';
           this.products.push({ productName: productName, productCount: productCount, isNotDone: true });
-          this.infoHtml = '';
+          this.infoHtml = `<div class="alert alert-light" role="alert"><div class="spinner-border spinner-border-sm" role="status"></div></div>`;
 
           const socket = io();
           socket.emit('add_product', {
@@ -152,7 +152,6 @@ const App = {
       const homeName = this.homeNameValue;
       const email = this.emailValue;
       const password = this.passwordValue;
-      console.log(`homeName: ${homeName} email: ${email}: password: ${password}`);
 
       if (homeName.length < 3) {
         console.log('Home name < 3');
@@ -171,6 +170,8 @@ const App = {
         this.infoHtml = `<div class="alert alert-warning" role="alert">Password should have 4 or more symbols</div>`;
         return;
       }
+
+      this.infoHtml = `<div class="alert alert-light" role="alert"><div class="spinner-border spinner-border-sm" role="status"></div></div>`;
 
       await fetch('/api/register', {
         method: 'post',
@@ -208,6 +209,7 @@ const App = {
         return;
       }
       this.infoHtml = '';
+      this.infoHtml = `<div class="alert alert-light" role="alert"><div class="spinner-border spinner-border-sm" role="status"></div></div>`;
 
       await fetch('/api/login', {
         method: 'post',
@@ -234,6 +236,7 @@ const App = {
           this.isAuthorized = true;
           this.isActiveLogin = false;
           this.showExit = true;
+          this.infoHtml = '';
         }
       });
     },

@@ -4,7 +4,7 @@ exports.Product = void 0;
 const mongoose_1 = require("mongoose");
 const productSchema = new mongoose_1.Schema({
     profileId: { type: String },
-    productName: { type: String, required: true, unique: true },
+    productName: { type: String, required: true, unique: false },
     productCount: { type: String },
     isNotDone: { type: Boolean, default: false },
 }, {
